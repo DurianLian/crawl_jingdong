@@ -11,7 +11,7 @@ class JdSpider(CrawlSpider):
     name = 'jd'
     allowed_domains = ['jd.com']
     start_urls = ['http://www.jd.com/']
-
+    # allow为空，爬取满足域名的所有网址
     rules = (
         Rule(LinkExtractor(allow=''), callback='parse_item', follow=True),
     )
@@ -54,14 +54,14 @@ class JdSpider(CrawlSpider):
                     commentpat = '"goodRateShow":(.*?),'
                     price = re.compile(pricepat).findall(pricedata)
                     comment = re.compile(commentpat).findall(commentdata)
-
+                    # 判断商品信息是否有空的，商品信息有空的就不不需要爬取了
                     if len(title) and len(shop) and len(shoplink) and len(price) and len(comment):
-                        print(str(title[0]).strip())
-                        print('https://item.jd.com/'+thisid+'.html')
-                        print(shop[0])
-                        print('http:'+shoplink[0])
-                        print(price[0])
-                        print(comment[0])
+                        print('商品标题：'+title[0].strip())
+                        print('商品链接：'+'https://item.jd.com/'+thisid+'.html')
+                        print('店铺名称：'+shop[0])
+                        print('店铺链接：'+'http:'+shoplink[0])
+                        print('商品价格：'+price[0])
+                        print('商品好评度：'+comment[0])
                         print('-----------------------------')
                     else:
                         pass
